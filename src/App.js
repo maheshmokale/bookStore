@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Amplify
 import { Amplify } from "aws-amplify";
+import '@aws-amplify/ui-react/styles.css';
 
 
 // Pages
@@ -22,31 +23,29 @@ Amplify.configure(awsExports);
 
 
 const App = () => {
-  {
-    return (
-      <div>
-        <BrowserRouter>
-          <Header />
+  return (
+    <div>
+      <BrowserRouter>
+        <Header />
 
-          <Routes>
-            <Route path="/" element={<Home />}></Route>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
 
-            <Route path="/cart" element={<><Cart /><p>Cart</p> </>} />
+          <Route path="/cart" element={<Cart />}></Route>
 
-            <Route path="/cart" element={<Cart />}></Route>
-            <Route path="/checkout" element={<Checkout />}>Checkout</Route>
-            <Route path="/books" element={<Books />}></Route>
-            <Route path="/admin" element={<Admin />}></Route>
-            <Route path="*" element={<Error />}></Route>
-            {/*<Route path="/books/:id"children={<BookDetails></BookDetails>}></Route> */}
-            <Route path="/books/:id" component={BookDetails} />
+          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="/checkout" element={<Checkout />}>Checkout</Route>
+          <Route path="/books" element={<Books />}></Route>
+          <Route path="/admin" element={<Admin />}></Route>
+          <Route path="*" element={<Error />}></Route>
+          {/*<Route path="/books/:id"children={<BookDetails></BookDetails>}></Route> */}
+          <Route path="/books/:id" component={BookDetails} />
 
 
-          </Routes>
-        </BrowserRouter>
-      </div>
-    );
-  }
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;

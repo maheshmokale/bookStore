@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { listBooks } from "../api/queries";
 import { processOrder } from "../api/mutations";
 import { generateClient } from 'aws-amplify/api';
+
+import { listBooks } from '../api/queries';
+
+import { Amplify } from 'aws-amplify';
+
+const client = generateClient();
+
 
 const BookContext = React.createContext();
 
@@ -10,7 +16,6 @@ const BookProvider = ({ children }) => {
   const [books, setBooks] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [loading, setLoading] = useState(false);
-  const client = generateClient();
 
   useEffect(() => {
     fetchBooks();
@@ -41,11 +46,10 @@ const BookProvider = ({ children }) => {
     try {
       setLoading(true);
       // Switch authMode to API_KEY for public access
-      const { data } = await client.graphql({
-        query: listBooks,
-        authMode: "API_KEY"
-      });
-      const books = data.listBooks.items;
+      const result = await client.graphql({ query: listBooks });
+      console.log(result);
+
+      const books = result.data.listBooks.items;
       const featured = books.filter((book) => {
         return !!book.featured;
       });
